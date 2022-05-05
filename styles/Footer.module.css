@@ -1,0 +1,62 @@
+.container {
+  width: 100%;
+  background-color: var(--color-primary);
+  padding: 8rem 0;
+}
+
+.container * {
+  color: white;
+}
+
+.logo {
+  font-size: 4rem;
+  font-weight: 700;
+  color: white;
+}
+
+.logoSlogan {
+  color: white;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 600;
+  text-transform: uppercase;
+  /* margin-bottom: 2rem; */
+}
+
+.icon {
+  margin: 0 5px;
+  padding: 5px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  transition: var(--transition);
+}
+
+.icon:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.iconOrder {
+  margin: 0 10px;
+}
+
+.divider {
+  height: 5px;
+  width: 100px;
+  background-color: var(--color-secondary);
+  margin: 10px auto 25px auto;
+}
+
+.copyright {
+  background-color: var(--color-primary);
+  padding: 10px 0;
+  text-align: center;
+  color: var(--color-white);
+  font-size: var(--text-5);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}

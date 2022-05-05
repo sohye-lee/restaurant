@@ -1,0 +1,45 @@
+.contactInfo {
+  padding: 8rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-gray-light);
+}
+
+.contactInfo * {
+  color: var(--color-black);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-gray);
+  border-radius: 40px;
+  margin-right: 10px;
+  transition: var(--transition);
+}
+
+.contactText {
+  font-size: var(--text-4);
+}
+
+.contactItem:hover .iconWrapper {
+  background-color: var(--color-primary);
+}
