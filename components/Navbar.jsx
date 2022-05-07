@@ -87,7 +87,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/cart">
+              <a className="nav-link" href="/Cart">
                 <Image
                   src="/images/icon-cart.png"
                   alt="shopping cart"
