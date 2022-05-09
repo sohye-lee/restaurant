@@ -2,8 +2,11 @@ import React from 'react';
 import Link from 'next/Link';
 import Image from 'next/Image';
 import styles from '../styles/Navbar.module.css';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
+  const cartQuantity = useSelector((state) => state.cart.cartQuantity);
+
   return (
     <nav className={styles.wrapper}>
       <div className="container d-flex align-items-center justify-content-between px-4">
@@ -87,15 +90,17 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/Cart">
-                <Image
-                  src="/images/icon-cart.png"
-                  alt="shopping cart"
-                  height={30}
-                  width={30}
-                />
-                <div className={styles.count}>2</div>
-              </a>
+              <Link href="/cart" passHref>
+                <a className="nav-link">
+                  <Image
+                    src="/images/icon-cart.png"
+                    alt="shopping cart"
+                    height={30}
+                    width={30}
+                  />
+                  <div className={styles.count}>{cartQuantity}</div>
+                </a>
+              </Link>
             </li>
           </ul>
         </div>

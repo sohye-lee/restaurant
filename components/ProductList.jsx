@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from '../styles/PizzaList.module.css';
-import PizzaCard from './PizzaCard';
+import styles from '../styles/ProductList.module.css';
+import ProductCard from './ProductCard';
 
-export default function PizzaList() {
+export default function ProductList({ products }) {
   return (
     <div className="container">
       <div className={styles.container}>
@@ -13,11 +13,9 @@ export default function PizzaList() {
           bite. But you’ll want more than one. We’re sure of it.
         </p>
         <div className={styles.grid}>
-          <PizzaCard />
-          <PizzaCard />
-          <PizzaCard />
-          <PizzaCard />
-          <PizzaCard />
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
         </div>
       </div>
     </div>

@@ -3,8 +3,8 @@ import '../styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'jquery/dist/jquery.js';
 import { useEffect } from 'react';
-// import { ThemeProvider } from 'styled-components';
-// import { GlobalStyles, mainTheme } from '../styled/theme.config';
+import store from '../redux/store';
+import { Provider } from 'react-redux';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -13,9 +13,11 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <Provider store={store}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
   );
 }
 

@@ -1,44 +1,35 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '../styles/Cart.module.css';
-
-const pizzas = [
-  {
-    id: 1,
-    image: '/images/menu/chickenpesto.png',
-    name: 'Chicken Pesto',
-    price: [12.9, 15.9, 18.9],
-    description: 'chicken with fresh pesto sauce, mozzarella cheese',
-    badge: 'popular',
-    category: 'Pizzas',
-    extra: ['spicy sauce', 'extra cheese'],
-    quantity: 1,
-    orderprice: 15.9,
-  },
-  {
-    id: 2,
-    image: '/images/menu/cheese.png',
-    name: 'Cheese',
-    price: [9.9, 12.9, 15.9],
-    description: 'fresh tomato sauce, mozzarella cheese',
-    badge: 'popular',
-    category: 'Pizzas',
-    extra: ['barbeque sauce', 'extra cheese'],
-    quantity: 2,
-    orderprice: 12.9,
-  },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct } from '../redux/cartSlice';
 
 const discount = 0.0;
 
-const getSubtotal = (pizza) => pizza.quantity * pizza.orderprice;
-const getTotal = (pizzas) => pizzas.reduce((a, b) => a + getSubtotal(b), 0);
+const getSubtotal = (product) => product.quantity * product.price;
+const getTotal = (products) => products.reduce((a, b) => a + getSubtotal(b), 0);
 
 const Cart = () => {
   const [delivery, setDelivery] = useState(false);
   const [pickupColor, setPickupColor] = useState('var(--color-primary)');
   const [deliveryColor, setDeliveryColor] = useState('white');
   const deliveryFee = () => (delivery ? 4.99 : 0);
+
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.cart.products);
+  // const totalPrice = useSelector((state) => state.cart.total);
+
+  const deleteItem = (product) => {
+    dispatch(
+      deleteProduct({
+        // price: product.price,
+        // quantity: product.quantity,
+        id: product._id,
+      })
+    );
+  };
+
+  console.log(products);
   return (
     <div className={styles.container}>
       <div className="container">
@@ -57,34 +48,26 @@ const Cart = () => {
                 <th>Total</th>
                 <th></th>
               </tr>
-              {pizzas.map((pizza, index) => (
+              {products.map((product, index) => (
                 <tr key={index}>
                   <td align="center">
                     <div
                       className={styles.imgContainer}
-                      style={{ backgroundImage: `url(${pizza.image})` }}
-                    >
-                      {/* <Image
-                        src={pizza.image}
-                        width={100}
-                        height={80}
-                        alt={pizza.name}
-                      /> */}
-                    </div>
+                      style={{ backgroundImage: `url(${product.image})` }}
+                    ></div>
                   </td>
-                  <td>{pizza.name}</td>
+                  <td>{product.name}</td>
                   <td>
-                    {pizza.extra.map((e, i) => (
+                    {product.extras.map((e, i) => (
                       <p className="m-0" key={i}>
-                        {e}
+                        {e.text}
                       </p>
                     ))}
                   </td>
-                  <td>{pizza.price[0]}</td>
-                  <td>{pizza.quantity}</td>
-                  <td>{getSubtotal(pizza)}</td>
+                  <td>{product.price}</td>
+                  <td>{product.quantity}</td>
+                  <td>{product.price * product.quantity}</td>
                   <td>
-                    {/* <div className="d-flex flex-column align-items-center"> */}
                     <button type="submit" className={styles.buttonSm}>
                       <Image
                         src="/images/icon-edit.png"
@@ -99,6 +82,7 @@ const Cart = () => {
                         width={25}
                         height={25}
                         alt="edit"
+                        onClick={() => deleteItem(product)}
                       />
                     </button>
                     {/* </div> */}
@@ -111,11 +95,6 @@ const Cart = () => {
               <h1 className={styles.deliveryTitle}>Choose Delivery</h1>
               <div
                 className={`col-11 mx-auto ${styles.deliveryBox}`}
-                // style={{
-                //   backgroundColor: delivery ? 'white' : 'var(--color-primary)',
-                //   color: delivery ? 'var(--color-primary)' : 'white',
-                // }}
-                // onClick={setDelivery(false)}
                 style={{
                   backgroundColor: pickupColor,
                   color:
@@ -151,7 +130,7 @@ const Cart = () => {
               <h1 className={styles.cartTitle}>Total</h1>
               <div className={styles.cartRow}>
                 <p>Subtotal</p>
-                <p>${getTotal(pizzas)}</p>
+                <p>${getTotal(products).toFixed(2)}</p>
               </div>
               <div className={styles.cartRow}>
                 <p>Delivery Fee</p>
@@ -165,7 +144,7 @@ const Cart = () => {
               <div className={styles.cartRow}>
                 <p>Total</p>
                 <p>
-                  ${(getTotal(pizzas) + discount + deliveryFee()).toFixed(2)}
+                  ${(getTotal(products) + discount + deliveryFee()).toFixed(2)}
                 </p>
               </div>
               <div className="d-flex justify-content-center w-100">

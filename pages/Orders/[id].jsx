@@ -153,7 +153,7 @@ const Order = () => {
                       {order.quantity}
                     </p>
                     <p>
-                      <span className={styles.bold}>Note:</span> "{order.note}""
+                      <span className={styles.bold}>Note:</span> "{order.note}"
                     </p>
                   </div>
                 ))}
