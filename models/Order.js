@@ -5,9 +5,10 @@ var Schema = mongoose.Schema;
 const orderSchema = new Schema(
   {
     ordernumber: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: mongoose.Types.ObjectId,
-      index: { unique: true },
+      type: String,
+      // type: mongoose.Schema.Types.ObjectId,
+      // default: mongoose.Types.ObjectId,
+      // index: { unique: true },
     },
     customer: {
       type: String,
@@ -25,44 +26,45 @@ const orderSchema = new Schema(
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
       maxlength: 20,
     },
     status: {
       type: Number,
-      default: 1,
+      default: 0,
       required: true,
     },
     method: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     orderItems: {
       type: [
         {
           mainItem: {
             type: String,
-            required: true,
+            // required: true,
             maxlength: 100,
           },
-          size: {
-            type: String,
-            required: true,
-            maxlength: 10,
-          },
+          // size: {
+          //   type: String,
+          //   required: true,
+          //   maxlength: 10,
+          // },
           extras: {
-            type: [{ String }],
-          },
-          note: {
-            type: String,
-            maxlength: 150,
+            type: [{ text: { type: String } }],
           },
           quantity: {
             type: Number,
-            required: true,
+            // required: true,
           },
         },
       ],
+      required: false,
+    },
+    note: {
+      type: String,
+      maxlength: 200,
     },
   },
   {
@@ -70,4 +72,4 @@ const orderSchema = new Schema(
   }
 );
 
-export default mongoose.model.Orders || mongoose.model('Order', orderSchema);
+export default mongoose.models.Order || mongoose.model('Order', orderSchema);

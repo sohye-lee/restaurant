@@ -12,12 +12,6 @@ const Product = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
-  // const productsInCart = useSelector((state) => state.cart.products);
-  // const isProductInCart =
-  //   productsInCart.filter(
-  //     (p) => p._id === product._id && p.extras === extras && p.price === price
-  //   ).length > 0;
-
   const changeColor = (num) => {
     if (size === num) {
       return 1;
@@ -48,11 +42,7 @@ const Product = ({ product }) => {
   };
 
   const addToCart = () => {
-    // if (!isProductInCart) {
     dispatch(addProduct({ ...product, extras, quantity, price }));
-    // } else {
-    //   dispatch(addProduct({ quantity: +quantity }));
-    // }
   };
 
   const renderSizes = (prices) => {
@@ -85,7 +75,7 @@ const Product = ({ product }) => {
         <input
           className={styles.checkbox}
           type="checkbox"
-          id={extra.text}
+          id={extra._id}
           name={extra.text}
           onChange={(e) => handleExtras(e, extra)}
         />

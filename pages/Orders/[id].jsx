@@ -1,38 +1,39 @@
 import Image from 'next/image';
 import React from 'react';
 import styles from '../../styles/Order.module.css';
+import axios from 'axios';
 
 const renderPhoneNumber = (num) => {
   return `(${num.substring(0, 3)}) ${num.substring(3, 6)}-${num.substring(6)}`;
 };
 
-const Order = () => {
-  const order = {
-    id: 1,
-    ordernumber: 30941929293,
-    createdAt: new Date().toString(),
-    customer: 'Jane Doe',
-    total: 49.9,
-    orderItems: [
-      {
-        mainItem: 'Cheeze Pizza',
-        size: 'medium',
-        extras: ['Spicy Sauce', 'Cheese Up'],
-        note: 'Cute in 6',
-        quantity: 1,
-      },
-      {
-        mainItem: 'Chicken Pesto',
-        size: 'medium',
-        extras: [],
-        note: 'No onions',
-        quantity: 1,
-      },
-    ],
-    address: '1234 Main St., Fairfax, VA 22030',
-    phone: '5713961122',
-    status: 2,
-  };
+const Order = ({ order }) => {
+  // const order = {
+  //   id: 1,
+  //   ordernumber: 30941929293,
+  //   createdAt: new Date().toString(),
+  //   customer: 'Jane Doe',
+  //   total: 49.9,
+  //   orderItems: [
+  //     {
+  //       mainItem: 'Cheeze Pizza',
+  //       size: 'medium',
+  //       extras: ['Spicy Sauce', 'Cheese Up'],
+  //       note: 'Cute in 6',
+  //       quantity: 1,
+  //     },
+  //     {
+  //       mainItem: 'Chicken Pesto',
+  //       size: 'medium',
+  //       extras: [],
+  //       note: 'No onions',
+  //       quantity: 1,
+  //     },
+  //   ],
+  //   address: '1234 Main St., Fairfax, VA 22030',
+  //   phone: '5713961122',
+  //   status: 2,
+  // };
 
   const getStatus = (current) => {
     if (current - order.status < 0) return styles.done;
@@ -125,7 +126,13 @@ const Order = () => {
             </div>
             <div className={styles.dataRow}>
               <p className={styles.label}>Phone No.</p>
-              <p className={styles.info}>{renderPhoneNumber(order.phone)}</p>
+              <p className={styles.info}>{order.phone}</p>
+            </div>
+            <div className={styles.dataRow}>
+              <p className={styles.label}>Delivery</p>
+              <p className={styles.info}>
+                {order.method === 1 ? 'Deliver' : 'Pick up at store'}
+              </p>
             </div>
             <div className={styles.dataRow}>
               <p className={styles.label}>Total</p>
@@ -138,12 +145,14 @@ const Order = () => {
                   <div key={i} className={styles.orderItemRow}>
                     <p className={styles.bold}>{order.mainItem}</p>
                     <p>
-                      <span className={styles.bold}>Size:</span> {order.size}
+                      {/* <span className={styles.bold}>Size:</span> {order.size} */}
                     </p>
                     <p>
                       <span className={styles.bold}>Extra:</span>
                       {order.extras.length > 0 ? (
-                        order.extras.map((e, i) => <p key={i}>&#8194; + {e}</p>)
+                        order.extras.map((e) => (
+                          <p key={e._id}>&#8194; + {e.text}</p>
+                        ))
                       ) : (
                         <> none</>
                       )}
@@ -153,7 +162,7 @@ const Order = () => {
                       {order.quantity}
                     </p>
                     <p>
-                      <span className={styles.bold}>Note:</span> "{order.note}"
+                      <span className={styles.bold}>Note:</span> {order.note}
                     </p>
                   </div>
                 ))}
@@ -167,3 +176,13 @@ const Order = () => {
 };
 
 export default Order;
+
+export const getServerSideProps = async ({ params }) => {
+  const res = await axios.get(`http://localhost:3000/api/orders/${params.id}`);
+
+  return {
+    props: {
+      order: res.data,
+    },
+  };
+};

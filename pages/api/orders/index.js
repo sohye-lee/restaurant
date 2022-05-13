@@ -1,5 +1,5 @@
 import dbConnect from '../../../util/mongodb';
-import Category from '../../../models/Category';
+import Order from '../../../models/Order';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -8,19 +8,20 @@ export default async function handler(req, res) {
 
   if (method === 'GET') {
     try {
-      const categories = await Category.find();
-      res.status(201).json(categories);
+      const orders = await Order.find();
+      res.status(201).json(orders);
     } catch (err) {
       res.status(500).json(err);
     }
   }
-
   if (method === 'POST') {
     try {
-      const category = await Category.create(req.body);
-      res.status(201).json(category);
+      const order = await Order.create(req.body);
+      res.status(201).json(order);
+      console.log(order);
     } catch (err) {
       res.status(500).json(err);
+      console.log(err);
     }
   }
 }
